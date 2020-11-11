@@ -1,6 +1,6 @@
 # j.comnet.2017.01.006
 
-Data files and model from Eduardo Moreno, Alejandra Beghelli & Filippo Cugini, "Traffic engineering in segment routing networks", Computer Networks, Volume 114, 2017, Pages 23-31, ISSN 1389-1286,
+Data files and model from Eduardo Moreno, Alejandra Beghelli & Filippo Cugini, "Traffic engineering in segment routing networks", Computer Networks, Volume 114, 2017, Pages 23-31, ISSN 1389-1286.
 
 https://doi.org/10.1016/j.comnet.2017.01.006.
 

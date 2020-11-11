@@ -1,0 +1,68 @@
+function rutas=Dijkstra(A,n_i)
+N_nodos=length(A(:,1));
+T=(1:N_nodos)./(1:N_nodos);
+D=inf.*(1:N_nodos);
+L(1:N_nodos,1:N_nodos)=0;
+D(n_i)=0;
+while sum(T)>0;
+    t=find(T==1);
+    p=t(find(D(t)==min(D(t)),1,'first'));
+    T(p)=0;
+    for j=1:1:N_nodos;
+        if T(j);
+            if D(p)+1==D(j) && A(p,j)==1;
+                index=find(L(j,:)==0,1,'first');
+                L(j,index)=p;
+            elseif D(p)+1<D(j) && A(p,j)==1;
+                L(j,:)=0;
+                L(j,1)=p;
+                D(j)=D(p)+1;
+            end;
+        else
+            if D(p)+1==D(j) && A(p,j)==1;
+                index=find(L(j,:)==0,1,'first');
+                L(j,index)=p;
+            end;
+        end;
+    end;
+end;
+N_L=sum(L>0,2);
+L=L(:,1:max(N_L));
+D=D(:);
+N_r(1:N_nodos)=1;
+N_p(1:N_nodos)=inf;
+rutas(1,1:max(D))=0;
+k=n_i;
+n_fil=1;
+n_col=1;
+N_p(k)=n_col;
+rutas(n_fil,n_col)=k;
+while sum(N_r)>0;
+    t=find(N_r==1);
+    k=t(N_p(t)==min(N_p(t)));
+    for n=1:1:length(k);
+        N_r(k(n))=0;
+        in=(mod(find(L==k(n)),N_nodos)==0)*N_nodos+(mod(find(L==k(n)),N_nodos)>0).*mod(find(L==k(n)),N_nodos);
+        for j=1:1:length(in);
+            new=find(rutas(:,n_col)==k(n));
+            rutas((n_fil+1):(n_fil+length(new)),1:n_col)=rutas(new,1:n_col);
+            rutas((n_fil+1):(n_fil+length(new)),n_col+1)=in(j);
+            n_fil=n_fil+length(new);
+            N_p(in(j))=n_col+1;
+        end;
+    end;
+    n_col=n_col+1;
+end;
+rutas=rutas(2:end,:);
+index(1:N_nodos)=0;
+for j=1:1:length(rutas(:,1));
+    a=find(rutas(j,:)==0,1,'first');
+    if isempty(a)
+        index(j)=rutas(j,end);
+    else
+        index(j)=rutas(j,a-1);
+    end;
+end;
+rutas=unique([index',rutas],'rows');
+rutas(:,1)=sum(rutas(:,2:end)>0,2)-1;
+end
